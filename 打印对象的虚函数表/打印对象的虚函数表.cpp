@@ -1,42 +1,21 @@
 #include <iostream>
 using namespace std;
 
-class Base
-{
+class Base {
 public:
-    virtual void Func1()
-    {
-        cout << "Func1()" << endl;
-    }
-
-    virtual void Func2()
-    {
-        cout << "Func1()" << endl;
-    }
-
-    virtual void Func3()
-    {
-        cout << "Func1()" << endl;
-    }
-
+    virtual void func1() { cout << "Base::func1" << endl; }
+    virtual void func2() { cout << "Base::func2" << endl; }
 private:
-    int _b = 1;
+    int a = 1;
 };
 
-class Child : public Base
-{
+class Child :public Base {
 public:
-    virtual void Func1()
-    {
-        cout << "Func1()" << endl;
-    }
-
-    void Func3()
-    {
-        cout << "Func1()" << endl;
-    }
+    virtual void func1() { cout << "Derive::func1" << endl; }
+    virtual void func3() { cout << "Derive::func3" << endl; }
+    virtual void func4() { cout << "Derive::func4" << endl; }
 private:
-    int _c = 1;
+    int b = 2;
 };
 
 //打印对象的虚函数表
@@ -51,7 +30,10 @@ void PrintVFT(VFPTR* vft)//数组不能传引用
 {
     for (size_t i = 0; i < 4; i++)
     {
-        printf("%p\n", vft[i]);//以十六进制的形式打印虚函数的地址
+        printf("%p->", vft[i]);//以十六进制的形式打印虚函数的地址
+
+        VFPTR pf = vft[i];
+        (*pf)();//调用函数指针
     }
 }
 
